@@ -22,7 +22,7 @@ app.listen(app.get('port'), () => {
 
 app.get('/', function (req, res) {
   db.one(
-    "insert into games(board, active) VALUES ($1, $2) RETURNING id",
+    "INSERT INTO games(board, active) VALUES ($1, $2) RETURNING id",
     ['.........', true]
   )
   .then(function (data) {
@@ -38,9 +38,17 @@ app.get('/', function (req, res) {
   .finally(pgp.end());
 });
 
-app.post('/games/update', function(req, res) {
-  console.log('req.body', req.body)
-  // console.log('req.body.board', req.body.board)
+app.put('/games/:id/update/:board', function(req, res) {
+  let board = req.params.board
+  let id = req.params.id
+  db.any("UPDATE games SET board='" + board + "' WHERE id=" + id + ';')
+  .then(data => {
+    console.log('data has been changed', data)    
+  })
+  .catch((error) => {
+    console.log("ERROR:", error.message || error); // print error;
+  })
+  .finally(pgp.end())
 })
 
 app.get('/games', function(req, res) {
@@ -57,4 +65,23 @@ app.get('/games', function(req, res) {
     console.log("ERROR:", error.message || error); // print error;
   })
   .finally(pgp.end())
+})
+
+app.get('/games/:id', function(req, res) {
+  db.one('SELECT * FROM games WHERE id=' + req.params.id + ';')
+  .then(data => {
+    res.render('index', {
+      title: 'Game #' + data.id,
+      message: 'Click to place X or O',
+      board: data.board.split('')
+    })
+  })
+  .catch((error) => {
+    console.log("ERROR:", error.message || error); // print error;
+  })
+  .finally(pgp.end())
+})
+
+app.delete('games/:id', function(req, res) {
+  console.log('Will delete game #', req.params.id)
 })

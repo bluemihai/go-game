@@ -13,8 +13,12 @@ html(lang="en")
       thead
         th id
         th board string
+        th
       tbody
         each game in games
           tr
-            td= game.id
+            td
+              a(href='/games/' + game.id)= game.id
             td= game.board
+            td
+              a.delete-link(id = 'delete-' + game.id) Delete
