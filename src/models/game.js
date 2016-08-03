@@ -1,6 +1,5 @@
-//two player game
-//black and white pieces
-//black goes first
+
+
 //pieces are placed on board intersections
 //pieces have four freedoms at the cardinal axes
 //ko: not allowed to make a move that returns the game to the previous state (no repetitive play)
@@ -14,13 +13,16 @@ String.prototype.replaceAt = function(index, character) {
   return this.substr(0, index) + character + this.substr(index+character.length)
 }
 
+//black and white pieces
+//black goes first
 export class Game {
   constructor(size = 9) {
     let cellCount = Math.pow(size, 2)
     this.board = [...Array(cellCount).keys()].map(k => '.').join('')
-    this.blackNext = true
+    this.isblackNext = true
   }
 
+//two player game
   nextPlayer() {
     return this.blackNext ? 'B' : 'W'
   }
@@ -28,9 +30,9 @@ export class Game {
   place(position) {
     this.board = this.board.replaceAt(position, this.nextPlayer())
   }
-  
+
 }
 
-// let gb = new Game(4)
-// gb.place(4)
-// console.log('gb', gb)
+let gb = new Game()
+gb.place(4)
+console.log('gb', gb)

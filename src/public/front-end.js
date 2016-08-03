@@ -1,13 +1,13 @@
 $(document).ready(() => {
-  let lastPlayer = 'O'
+  let lastPlayer = 'W'
   console.log('getGameId', getGameId())
 
   $('.cell').click( function() {
-    lastPlayer = (lastPlayer === 'X' ? 'O' : 'X')
+    lastPlayer = (lastPlayer === 'B' ? 'W' : 'B')
     $(this).html(lastPlayer)
     updateGame(getGameId(), getBoardString())
   })
-  
+
   $('a.delete-link').click(function() {
     let gameId = this.id.replace('delete-', '')
     console.log('gameId', gameId)
@@ -21,12 +21,12 @@ $(document).ready(() => {
         console.log('error:', error)
       }
     })
-    
+
   })
 })
 
 const getBoardString = () => {
-  let range = [...Array(9).keys()]
+  let range = [...Array(81).keys()]
   let cells = range.map(k => '#cell-' + k)
   return cells.map(k => $(k).html()).join('')
 }

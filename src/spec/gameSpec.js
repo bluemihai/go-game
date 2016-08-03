@@ -1,13 +1,13 @@
 import { Game } from '../models/game'
 
-describe('example', () => {
+describe('Game Class', () => {
   it('checks that new game gets initialized correctly', () => {
     expect(new Game(4).board.length).toEqual(16)
     expect(new Game(9).board.length).toEqual(81)
   })
 
   it('places correctly', () => {
-    let g = new Game(2)    
+    let g = new Game(2)
     expect(g.board).toEqual('....')
     g.place(2)
     expect(g.board).toEqual('..B.')

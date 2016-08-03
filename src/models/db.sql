@@ -5,5 +5,5 @@ CREATE TABLE games(
   active BOOLEAN
 );
 INSERT INTO games (board, active)
-  VALUES ('         ', true)
+  VALUES ('.........', true)
   RETURNING id;
