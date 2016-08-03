@@ -2,7 +2,7 @@ import { query } from './initializeDatabase'
 
 const createGame = (boardString) => {
   let queryString = "INSERT INTO games (board, active) \
-  VALUES ('" + (boardString || '') + "', true) \
+  VALUES ('" + (boardString || '.........') + "', true) \
   RETURNING id;"
   query(queryString)
 }

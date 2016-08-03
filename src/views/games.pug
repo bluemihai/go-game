@@ -9,4 +9,12 @@ html(lang="en")
     h4#title-id= title
     p= message
     
-    include ./includes/board.pug
+    table
+      thead
+        th id
+        th board string
+      tbody
+        each game in games
+          tr
+            td= game.id
+            td= game.board
