@@ -1,30 +1,36 @@
-import { query } from './initializeDatabase'
+//two player game
+//black and white pieces
+//black goes first
+//pieces are placed on board intersections
+//pieces have four freedoms at the cardinal axes
+//ko: not allowed to make a move that returns the game to the previous state (no repetitive play)
+//suicide: can't place a piece in a location where it will have zero freedoms
+//score: number stones on the board plus the empty spaces controlled by those pieces
+//dame: area controlled by neither black or white = no score
+//board is 9x9 - pieces placed on corner have 2 freedoms and placed on edges have 3 freedoms
+//game is over when both players pass twice consecutively or simply agree to end the game
 
-const createGame = (boardString) => {
-  let queryString = "INSERT INTO games (board, active) \
-  VALUES ('" + (boardString || '.........') + "', true) \
-  RETURNING id;"
-  query(queryString)
+String.prototype.replaceAt = function(index, character) {
+  return this.substr(0, index) + character + this.substr(index+character.length)
 }
 
-const retrieveGame = (gameId) => {
-  let queryString = 'SELECT * FROM games WHERE id=' + gameId + ';'
-  return query(queryString)
+export class Game {
+  constructor(size = 9) {
+    let cellCount = Math.pow(size, 2)
+    this.board = [...Array(cellCount).keys()].map(k => '.').join('')
+    this.blackNext = true
+  }
+
+  nextPlayer() {
+    return this.blackNext ? 'B' : 'W'
+  }
+
+  place(position) {
+    this.board = this.board.replaceAt(position, this.nextPlayer())
+  }
+  
 }
 
-const retrieveAllGames = () => {
-  let queryString = 'SELECT * FROM games;'
-  return query(queryString)
-}
-
-const updateGame = (gameId, board) => {
-  let queryString = "UPDATE games SET board='" + board + "' WHERE id=" + gameId + ';'
-  return query(queryString)
-}
-
-const destroyGame = (gameId) => {
-  let queryString = 'DELETE FROM games WHERE id=' + gameId + ' RETURNING board;'
-  return query(queryString)
-}
-
-export { createGame, retrieveGame, retrieveAllGames, updateGame, destroyGame }
+// let gb = new Game(4)
+// gb.place(4)
+// console.log('gb', gb)
