@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  let lastPlayer = 'X'
+  let lastPlayer = 'O'
   console.log('getGameId', getGameId())
 
   $('.cell').click( function() {
