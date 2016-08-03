@@ -29,4 +29,4 @@ const query = (string) => {
   .finally(pgp.end())
 }
 
-export { query }
+export { bluebird, pgp, db, query }
