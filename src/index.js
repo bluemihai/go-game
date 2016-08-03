@@ -5,50 +5,27 @@ const app = express()
 const path = require('path')
 
 const router = express.Router();
-const pg = require('pg');
-const connectionString = require(path.join(__dirname, '../', '../', './config'));
 
+const pug = require('pug')
 
 app.set('port', (process.env.PORT || 3000))
 
-app.use(
-  express.static(path.join(__dirname, '/public'))
-)
+app.use(express.static(path.join(__dirname, '/public')))
+app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, 'views'))
 
 app.listen(app.get('port'), () => {
   console.log('Example app listening on port 3000!')
 })
 
-router.post('/games', function(req, res) {
-    let results = []
+app.get('/', function (req, res) {
+  res.render('index', {
+    title: 'Go (Simple)',
+    message: 'Hello there!',
+    board: ['A', '.', '.', 'O', 'X', 'O', '.', '.', '.']
+  });
+});
 
-    // Grab data from http request
-    let data = {board: req.body.text, active: true}
-
-    // Get a Postgres client from the connection pool
-    pg.connect(connectionString, (err, client, done) => {
-        // Handle connection errors
-        if(err) {
-          done()
-          console.log(err)
-          return res.status(500).json({ success: false, data: err})
-        }
-
-        // SQL Query > Insert Data
-        client.query("INSERT INTO games(board, active) values($1, $2)", [data.board, data.active])
-
-        // SQL Query > Select Data
-        let query = client.query("SELECT * FROM games ORDER BY id ASC")
-
-        // Stream results back one row at a time
-        query.on('row', function(row) {
-            results.push(row)
-        })
-
-        // After all data is returned, close connection and return results
-        query.on('end', function() {
-            done()
-            return res.json(results)
-        })
-    })
+app.get('/foo', function(req, res) {
+  res.send('BAR')
 })
