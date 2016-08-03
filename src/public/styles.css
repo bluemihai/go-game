@@ -1,0 +1,18 @@
+.container {
+  border: 1px solid blue;
+  width: 66px;  
+  height: 66px;
+}
+.row {
+  width: 66px;
+  height: 22px;
+  display: table-row;
+}
+.cell {
+  display: table-cell;
+  width: 20px;
+  height: 20px;
+  background-color: yellow;
+  border: 1px solid blue;
+  text-align: center;
+}

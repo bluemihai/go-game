@@ -30,7 +30,11 @@ app.get('/', function (req, res) {
 app.get('/games/create', function(req, res) {
   db.one("insert into games(board, active) VALUES ($1, $2) RETURNING id", ['', true])
     .then(function (data) {
-        res.send('newGameId is... ' + data.id)
+      res.render('index', {
+        title: 'Game #' + data.id,
+        message: 'Click to place X or O',
+        board: []
+      })
     })
     .catch(function (error) {
         console.log("ERROR:", error.message || error); // print error;
