@@ -6,14 +6,14 @@ html(lang="en")
     script(src='/front-end.js')
     link(rel='stylesheet', type='text/css', href='/styles.css')
   body
-    h4#title-id= title
+    h2#title-id= title
     p= message
-    
+
     table
       thead
-        th id
-        th board string
-        th
+        th Game iD
+        th Board Moves
+        th Destroy Game
       tbody
         each game in games
           tr
@@ -21,4 +21,4 @@ html(lang="en")
               a(href='/games/' + game.id)= game.id
             td= game.board
             td
-              a.delete-link(id = 'delete-' + game.id) Delete
+              a.delete-link(id = 'delete-' + game.id) DESTROY

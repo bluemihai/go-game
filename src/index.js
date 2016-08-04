@@ -27,8 +27,9 @@ app.get('/', function (req, res) {
   )
   .then(function (data) {
     res.render('index', {
-      title: 'Game #' + data.id,
-      message: 'Click to place B or W',
+      welcome: 'Welcome to the Go Peace game.',
+      title: 'Game iD ' + data.id,
+      message: 'Click to place Black or White piece.',
       board: '.................................................................................'.split('')
     })
   })
@@ -56,8 +57,8 @@ app.get('/games', function(req, res) {
   .then(data => {
     console.log('data', data)
     res.render('games', {
-      title: 'All Games',
-      message: 'Clicking on individual games: coming soon!',
+      title: 'Here are available games.',
+      message: 'Please click below on a Game iD in order to play.',
       games: data
     })
   })
@@ -71,8 +72,8 @@ app.get('/games/:id', function(req, res) {
   db.one('SELECT * FROM games WHERE id=' + req.params.id + ';')
   .then(data => {
     res.render('index', {
-      title: 'Game #' + data.id,
-      message: 'Click to place B or W',
+      title: 'Game iD ' + data.id,
+      message: 'Click on a square to add your Black or White piece.',
       board: data.board.split('')
     })
   })
