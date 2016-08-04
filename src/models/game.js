@@ -45,7 +45,6 @@ export class Game {
   }
 
   freedoms(position, color) {
-    console.log('color', color, 'getNeighbors', this.getNeighbors(position))
     let temp = this.getNeighbors(position).map(k => k === color ? 1 : 0)
     return temp.reduce((prev, curr) => prev + curr)
   }
