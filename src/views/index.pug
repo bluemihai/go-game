@@ -7,7 +7,10 @@ html(lang="en")
     link(rel='stylesheet', type='text/css', href='/styles.css')
   body
     h2= welcome
-    h4#title-id= title
+    h4
+      span= title
+      span#title-id= gameId
+    a(href='/games') All Games
     p= message
 
     include ./includes/board.pug

@@ -32,7 +32,7 @@ const getBoardString = () => {
 }
 
 const getGameId = () => {
-  return $('#title-id').html().replace('Game #', '')
+  return $('#title-id').html()
 }
 
 const updateGame = (id, board) => {
@@ -48,3 +48,4 @@ const updateGame = (id, board) => {
      data: data
    });
 }
+

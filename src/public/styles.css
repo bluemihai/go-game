@@ -1,11 +1,12 @@
+body {
+  font-family: monospace;
+  background-color: yellow;
+}
+
 .container {
   /*align-items: center;*/
-  width: 128px;
-  height: 128px;
 }
 .row {
-  width: 25px;
-  height: 25px;
   display: table-row;
 }
 .cell {

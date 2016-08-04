@@ -29,4 +29,6 @@ const query = (string) => {
   .finally(pgp.end())
 }
 
+query('SELECT * FROM games;')
+
 export { bluebird, pgp, db, query }
