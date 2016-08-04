@@ -38,7 +38,7 @@ describe('Game Class', () => {
     expect(g.getNeighbors(4)).toEqual(['W', 'W', 'W', 'W'])
   })  
 
-  fit('#freedoms works', () => {
+  it('#freedoms works', () => {
     let g = new Game(3)
     g.board = '.WBW.WBWB'
     expect(g.freedoms(4, 'W')).toEqual(4)
