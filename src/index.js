@@ -23,13 +23,13 @@ app.listen(app.get('port'), () => {
 app.get('/', function (req, res) {
   db.one(
     "INSERT INTO games(board, active) VALUES ($1, $2) RETURNING id",
-    ['.........', true]
+    ['.................................................................................', true]
   )
   .then(function (data) {
     res.render('index', {
       title: 'Game #' + data.id,
-      message: 'Click to place X or O',
-      board: '.........'.split('')
+      message: 'Click to place B or W',
+      board: '.................................................................................'.split('')
     })
   })
   .catch(function (error) {
@@ -43,7 +43,7 @@ app.put('/games/:id/update/:board', function(req, res) {
   let id = req.params.id
   db.any("UPDATE games SET board='" + board + "' WHERE id=" + id + ';')
   .then(data => {
-    console.log('data has been changed', data)    
+    console.log('data has been changed', data)
   })
   .catch((error) => {
     console.log("ERROR:", error.message || error); // print error;
@@ -72,7 +72,7 @@ app.get('/games/:id', function(req, res) {
   .then(data => {
     res.render('index', {
       title: 'Game #' + data.id,
-      message: 'Click to place X or O',
+      message: 'Click to place B or W',
       board: data.board.split('')
     })
   })
