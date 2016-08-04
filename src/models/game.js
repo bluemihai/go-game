@@ -21,12 +21,13 @@ export class Game {
   constructor(size = 9) {
     let cellCount = Math.pow(size, 2)
     this.board = [...Array(cellCount).keys()].map(k => '.').join('')
-    this.isblackNext = true
+    this.isBlackNext = true
+    this.size = size
   }
 
 //two player game switching
   nextPlayer() {
-    return this.blackNext ? 'B' : 'W'
+    return this.isBlackNext ? 'B' : 'W'
   }
 
 
@@ -34,17 +35,34 @@ export class Game {
  thePiece(position) {
    let isEmpty = '.'
    let isBlack = 'B'
-   let issWhite = 'W'
-   
+   let isWhite = 'W'
  }
-
-
-
-
 
 // activating a placement
   place(position) {
     this.board = this.board.replaceAt(position, this.nextPlayer())
+    this.isBlackNext = !this.isBlackNext
+  }
+
+  freedoms(position, color) {
+    console.log('color', color, 'getNeighbors', this.getNeighbors(position))
+    let temp = this.getNeighbors(position).map(k => k === color ? 1 : 0)
+    return temp.reduce((prev, curr) => prev + curr)
+  }
+
+  getNeighbors(position) {
+    let x = position % this.size
+    let y = Math.floor(position / this.size)
+    return [
+      this.board[this.xyToPosition(x - 1, y)],
+      this.board[this.xyToPosition(x + 1, y)],
+      this.board[this.xyToPosition(x, y - 1)],
+      this.board[this.xyToPosition(x, y + 1)]
+    ]
+  }
+
+  xyToPosition(x, y) {
+    return this.size * y + x
   }
 
 }
