@@ -46,7 +46,7 @@ const recordMove = function () {
     $('#message').html('WRONG!!!!')
   } else {
     lastPlayer = (lastPlayer === 'B' ? 'W' : 'B')
-    $(this).html(lastPlayer)
+    // $(this).html(lastPlayer)
     $(this).off('click')
     $(this).removeClass('available')
     $(this).addClass(lastPlayer)
@@ -55,7 +55,7 @@ const recordMove = function () {
 }
 
 const illegalMoveCheck = () => {
-  return true
+  return false
 }
 
 const getGameId = () => {
