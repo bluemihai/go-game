@@ -59,6 +59,7 @@ var Game = exports.Game = function () {
     this.isBlackNext = true;
     this.size = size;
     this.boardHistory = [];
+    this.capturedBy = { B: 0, W: 0 };
   }
 
   _createClass(Game, [{
@@ -67,16 +68,38 @@ var Game = exports.Game = function () {
       return this.isBlackNext ? 'B' : 'W';
     }
   }, {
+    key: 'otherPlayer',
+    value: function otherPlayer() {
+      return this.isBlackNext ? 'W' : 'B';
+    }
+  }, {
     key: 'place',
     value: function place(position) {
       if (this.occupied(position)) return false;
       if (this.suicide(position)) return false;
-      if (this.ko(position)) return false;
+      // if (this.ko(position)) return false
 
       this.board = this.board.replaceAt(position, this.nextPlayer());
+
+      // capture()
+      //
       this.boardHistory.push(this.board);
       this.isBlackNext = !this.isBlackNext;
       return true;
+    }
+  }, {
+    key: 'capture',
+    value: function capture(position) {
+      var _this2 = this;
+
+      neighbors.forEach(function (n) {
+        if (_this2.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
+          _this2.board = _this2.board.replaceAt(n, '.');
+          _this2.capturedBy[nextPlayer()] = _this2.capturedBy[nextPlayer()] + 1;
+        }
+      });
+      // iterate through neighbors
+      // remove them if they are opponent pieces with no freedoms
     }
   }, {
     key: 'neighbors',

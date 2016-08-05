@@ -5,7 +5,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var lastPlayer = 'W';
 
 $(document).ready(function () {
-  updateBoardColors();
+  loadBoard();
   lastPlayer = lastToMove();
   $('.available').click(recordMove);
   $('a.delete-link').click(destroyGame);
@@ -46,7 +46,7 @@ var getCellIds = function getCellIds() {
   });
 };
 
-var updateBoardColors = function updateBoardColors() {
+var loadBoard = function loadBoard() {
   return getCellIds().map(function (k) {
     var value = $(k).html();
     if (value === '.') {

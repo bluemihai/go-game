@@ -1,6 +1,6 @@
 'use strict'
 
-const game = require('./models/game')
+const game = require('./public/game')
 
 const express = require('express')
 const app = express()
@@ -8,7 +8,7 @@ const path = require('path')
 const router = express.Router();
 const pug = require('pug')
 import { db, pgp } from './models/initializeDatabase'
-import { retrieveAllGames } from './models/game'
+import { retrieveAllGames } from './public/game'
 
 app.set('port', (process.env.PORT || 3000))
 

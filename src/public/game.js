@@ -42,21 +42,40 @@ export class Game {
     this.isBlackNext = true
     this.size = size
     this.boardHistory = []
+    this.capturedBy = { B: 0, W: 0 }
   }
 
   nextPlayer() {
     return this.isBlackNext ? 'B' : 'W'
   }
 
+  otherPlayer() {
+    return this.isBlackNext ? 'W' : 'B'
+  }
+
   place(position) {
     if (this.occupied(position)) return false
     if (this.suicide(position)) return false
-    if (this.ko(position)) return false
+    // if (this.ko(position)) return false
 
     this.board = this.board.replaceAt(position, this.nextPlayer())
+
+    // capture()
+    //
     this.boardHistory.push(this.board)
     this.isBlackNext = !this.isBlackNext
     return true      
+  }
+
+  capture(position) {
+    neighbors.forEach(n => {
+      if (this.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
+        this.board = this.board.replaceAt(n, '.')
+        this.capturedBy[nextPlayer()] = this.capturedBy[nextPlayer()] + 1
+      }
+    })
+    // iterate through neighbors
+      // remove them if they are opponent pieces with no freedoms
   }
 
   neighbors(position) {

@@ -2,11 +2,11 @@
 
 var _initializeDatabase = require('./models/initializeDatabase');
 
-var _game = require('./models/game');
+var _game = require('./public/game');
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var game = require('./models/game');
+var game = require('./public/game');
 
 var express = require('express');
 var app = express();

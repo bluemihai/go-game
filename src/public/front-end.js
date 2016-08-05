@@ -1,7 +1,7 @@
 let lastPlayer = 'W'
 
 $(document).ready(() => {
-  updateBoardColors()
+  loadBoard()
   lastPlayer = lastToMove()
   $('.available').click(recordMove)
   $('a.delete-link').click(destroyGame)
@@ -40,7 +40,7 @@ const getCellIds = () => {
   return range.map(k => '#cell-' + k)  
 }
 
-const updateBoardColors = () => {
+const loadBoard = () => {
   return getCellIds().map(k => {
     let value = $(k).html()
     if (value === '.') {

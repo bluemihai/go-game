@@ -1,4 +1,4 @@
-import { Game } from '../models/game'
+import { Game } from '../public/game'
 
 describe('Game Class', () => {
   it('checks that new game gets initialized correctly', () => {
@@ -12,15 +12,15 @@ describe('Game Class', () => {
 
     expect(g.place(2)).toEqual(true)
     expect(g.board).toEqual('..B.')
-    expect(g.moveStack).toEqual([2])
+    expect(g.boardHistory).toEqual(['..B.'])
 
     expect(g.occupied(2)).toEqual(true)
     expect(g.place(2)).toEqual(false)
-    expect(g.moveStack).toEqual([2])
+    expect(g.boardHistory).toEqual(['..B.'])
 
     expect(g.place(1)).toEqual(true)
     expect(g.board).toEqual('.WB.')
-    expect(g.moveStack).toEqual([2, 1])
+    expect(g.boardHistory).toEqual(['..B.', '.WB.'])
   })
 
   it('#xyToPosition', () => {
@@ -39,9 +39,14 @@ describe('Game Class', () => {
   it('#nextPlayer() works', () => {
     let g = new Game(2)
     expect(g.nextPlayer()).toEqual('B')
-    g.place(2)
+
+    expect(g.place(2)).toEqual(true)
     expect(g.nextPlayer()).toEqual('W')
-    g.place(1)
+
+    expect(g.place(2)).toEqual(false)
+    expect(g.nextPlayer()).toEqual('W')
+
+    expect(g.place(1)).toEqual(true)
     expect(g.nextPlayer()).toEqual('B')
   })
 
@@ -86,8 +91,19 @@ describe('Game Class', () => {
     expect(g.place(15)).toEqual(true)
   })
 
-  it('#ko works', () => {
+  fit('#ko works', () => {
     let g = new Game(4)
-    g.board = '................'
+    g.place(2)
+    g.place(1)
+    g.place(7)
+    g.place(4)
+    g.place(10)
+    g.place(9)
+    g.place(12)
+    g.place(6)
+    expect(g.board).toEqual('.WB.W.WB.WB.B...')
+    g.place(5)
+    expect(g.board).toEqual('.WB.WB.B.WB.B...')
+    expect(g.ko(6)).toEqual(true)
   })
 })
