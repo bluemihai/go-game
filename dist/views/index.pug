@@ -1,0 +1,12 @@
+doctype html
+html(lang="en")
+  head
+    title= title
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+    script(src='/front-end.js')
+    link(rel='stylesheet', type='text/css', href='/styles.css')
+  body
+    include ./includes/nav.pug
+    p= message
+
+    include ./includes/board.pug
