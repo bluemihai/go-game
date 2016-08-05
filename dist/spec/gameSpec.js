@@ -2,21 +2,6 @@
 
 var _game = require('../models/game');
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-String.prototype.printSquare = function () {
-  var _this = this;
-
-  var size = Math.log2(this.length);
-  if (size === Math.floor(size)) {
-    return '\n' + [].concat(_toConsumableArray(Array(size).keys())).map(function (k) {
-      return _this.slice(k * size, (k + 1) * size);
-    }).join('\n');
-  } else {
-    return 'Length of your string is not a perfect square!!';
-  }
-};
-
 describe('Game Class', function () {
   it('checks that new game gets initialized correctly', function () {
     expect(new _game.Game(4).board.length).toEqual(16);
@@ -26,10 +11,18 @@ describe('Game Class', function () {
   it('#place works', function () {
     var g = new _game.Game(2);
     expect(g.board).toEqual('....');
-    g.place(2);
+
+    expect(g.place(2)).toEqual(true);
     expect(g.board).toEqual('..B.');
-    g.place(1);
+    expect(g.moveStack).toEqual([2]);
+
+    expect(g.occupied(2)).toEqual(true);
+    expect(g.place(2)).toEqual(false);
+    expect(g.moveStack).toEqual([2]);
+
+    expect(g.place(1)).toEqual(true);
     expect(g.board).toEqual('.WB.');
+    expect(g.moveStack).toEqual([2, 1]);
   });
 
   it('#xyToPosition', function () {
@@ -79,18 +72,20 @@ describe('Game Class', function () {
     expect(g.freedoms(4, 'B')).toEqual(0);
   });
 
-  it('#suicide works for true', function () {
+  it('#suicide works when true', function () {
     var g = new _game.Game(4); // x 2 y 1 position 6
     g.board = '..W..W.W..W.....';
     expect(g.freedoms(6, g.nextPlayer())).toEqual(0);
     expect(g.suicide(6)).toEqual(true);
+    expect(g.place(6)).toEqual(false);
   });
 
   it('#suicide works for false', function () {
-    var g = new _game.Game(15);
+    var g = new _game.Game(15); // bottom right corner
     g.board = '..W..W.W..W.....';
     expect(g.freedoms(15, g.nextPlayer())).toEqual(2);
     expect(g.suicide(15)).toEqual(false);
+    expect(g.place(15)).toEqual(true);
   });
 
   it('#ko works', function () {

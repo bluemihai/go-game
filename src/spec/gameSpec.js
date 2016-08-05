@@ -1,14 +1,5 @@
 import { Game } from '../models/game'
 
-String.prototype.printSquare = function() {
-  let size = Math.log2(this.length)
-  if (size === Math.floor(size)) {
-    return '\n' + [...Array(size).keys()].map(k => this.slice(k * size, (k + 1) * size)).join('\n')
-  } else {
-    return 'Length of your string is not a perfect square!!'
-  }
-}
-
 describe('Game Class', () => {
   it('checks that new game gets initialized correctly', () => {
     expect(new Game(4).board.length).toEqual(16)
@@ -18,10 +9,18 @@ describe('Game Class', () => {
   it('#place works', () => {
     let g = new Game(2)
     expect(g.board).toEqual('....')
-    g.place(2)
+
+    expect(g.place(2)).toEqual(true)
     expect(g.board).toEqual('..B.')
-    g.place(1)
+    expect(g.moveStack).toEqual([2])
+
+    expect(g.occupied(2)).toEqual(true)
+    expect(g.place(2)).toEqual(false)
+    expect(g.moveStack).toEqual([2])
+
+    expect(g.place(1)).toEqual(true)
     expect(g.board).toEqual('.WB.')
+    expect(g.moveStack).toEqual([2, 1])
   })
 
   it('#xyToPosition', () => {
@@ -71,18 +70,20 @@ describe('Game Class', () => {
     expect(g.freedoms(4, 'B')).toEqual(0)
   })
 
-  it('#suicide works for true', () => {
+  it('#suicide works when true', () => {
     let g = new Game(4) // x 2 y 1 position 6
     g.board = '..W..W.W..W.....'
     expect(g.freedoms(6, g.nextPlayer())).toEqual(0)
     expect(g.suicide(6)).toEqual(true)
+    expect(g.place(6)).toEqual(false)
   })
 
   it('#suicide works for false', () => {
-    let g = new Game(15)
+    let g = new Game(15) // bottom right corner
     g.board = '..W..W.W..W.....'
     expect(g.freedoms(15, g.nextPlayer())).toEqual(2)
     expect(g.suicide(15)).toEqual(false)
+    expect(g.place(15)).toEqual(true)
   })
 
   it('#ko works', () => {
