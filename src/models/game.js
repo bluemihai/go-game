@@ -25,18 +25,16 @@ export class Game {
     this.size = size
   }
 
-//two player game switching
+  suicide(position) {
+    let freedoms = this.freedoms(position, this.nextPlayer())
+    console.log('freedoms', freedoms)
+    return freedoms === 0 ? true : false
+  }
+
+  //two player game switching
   nextPlayer() {
     return this.isBlackNext ? 'B' : 'W'
   }
-
-
-//pieces have four freedoms at the cardinal axes
- thePiece(position) {
-   let isEmpty = '.'
-   let isBlack = 'B'
-   let isWhite = 'W'
- }
 
 // activating a placement
   place(position) {

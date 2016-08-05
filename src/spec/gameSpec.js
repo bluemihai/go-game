@@ -15,6 +15,37 @@ describe('Game Class', () => {
     expect(g.board).toEqual('.WB.')
   })
 
+  it('#ko works', () => {
+    let g = new Game(4)
+    g.board = '\
+    ....\
+    ....\
+    ....\
+    ....'
+  })
+
+  it('#suicide works for true', () => {
+    let g = new Game(4) // x 2 y 1 position 6
+    expect(g.freedoms(6, g.nextPlayer())).toEqual(0)
+    g.board = '\
+    ..W.\
+    .W.W\
+    ..W.\
+    ....'
+    expect(g.suicide(6)).toEqual(true)
+  })
+
+  fit('#suicide works for false', () => {
+    let g = new Game(15)
+    expect(g.freedoms(6, g.nextPlayer())).toEqual(2)
+    g.board = '\
+    ..W.\
+    .W.W\
+    ..W.\
+    ....'
+    expect(g.suicide(7)).toEqual(false)
+  })
+
   it('#nextPlayer() return B with empty board', () => {
     let g = new Game(2)
     expect(g.nextPlayer()).toEqual('B')
