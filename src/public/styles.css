@@ -13,7 +13,17 @@ body {
   display: table-cell;
   width: 35px;
   height: 35px;
-  background-color: #D28549;
   border: 1px solid #1485CC;
   text-align: center;
+}
+.available {
+  background-color: #D28549;
+}
+
+.B {
+  background-color: black;
+}
+
+.W {
+  background-color: white;
 }

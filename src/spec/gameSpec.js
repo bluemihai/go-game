@@ -15,7 +15,7 @@ describe('Game Class', () => {
     expect(new Game(9).board.length).toEqual(81)
   })
 
-  it('places correctly', () => {
+  it('#place works', () => {
     let g = new Game(2)
     expect(g.board).toEqual('....')
     g.place(2)

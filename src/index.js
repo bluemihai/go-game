@@ -28,7 +28,8 @@ app.get('/', function (req, res) {
   .then(function (data) {
     res.render('index', {
       welcome: 'Welcome to the Go Peace game.',
-      title: 'Game iD ' + data.id,
+      gameId: data.id,
+      title: 'Game iD ',
       message: 'Click to place Black or White piece.',
       board: '.................................................................................'.split('')
     })
@@ -58,9 +59,9 @@ app.put('/games/:id/update/:board', function(req, res) {
 })
 
 app.get('/games', function(req, res) {
+  console.log('Running /games')
   db.any('SELECT * FROM games;')
   .then(data => {
-    console.log('data', data)
     res.render('games', {
       title: 'Here are available games.',
       message: 'Please click below on a Game iD in order to play.',

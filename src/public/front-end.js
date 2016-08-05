@@ -1,10 +1,14 @@
 $(document).ready(() => {
   let lastPlayer = 'W'
   console.log('getGameId', getGameId())
+  console.log('getBoardString', getBoardString())
 
   $('.cell').click( function() {
     lastPlayer = (lastPlayer === 'B' ? 'W' : 'B')
+    console.log('getGameId()', getGameId(), 'lastPlayer', lastPlayer, getBoardString())
     $(this).html(lastPlayer)
+    $(this).removeClass('available')
+    $(this).addClass(lastPlayer)
     updateGame(getGameId(), getBoardString())
   })
 
@@ -31,6 +35,7 @@ const getBoardString = () => {
   return cells.map(k => $(k).html()).join('')
 }
 
+
 const getGameId = () => {
   return $('#title-id').html()
 }
@@ -38,8 +43,8 @@ const getGameId = () => {
 const updateGame = (id, board) => {
   // $.post('/games/update', { id: id, board: board})
   let data = { id: id, board: board }
-  // Horrible hack, but can't seem to get index.js to see req.params or req.query or req.body otherwise  - TODO: refactor
   return $.ajax({
+    // Horrible hack, but can't seem to get index.js to see req.params or req.query or req.body otherwise  - TODO: refactor
      url: '/games/' + id + '/update/' + board,
      type: 'PUT',
      success: (results) => {
