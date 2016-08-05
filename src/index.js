@@ -20,7 +20,7 @@ app.listen(app.get('port'), () => {
   console.log('Example app listening on port 3000!')
 })
 
-app.get('/', function (req, res) {
+app.get('/new', function (req, res) {
   db.one(
     "INSERT INTO games(board, active) VALUES ($1, $2) RETURNING id",
     ['.................................................................................', true]
@@ -52,6 +52,10 @@ app.put('/games/:id/update/:board', function(req, res) {
     console.log("ERROR:", error.message || error); // print error;
   })
   .finally(pgp.end())
+})
+
+app.get('/', function(req, res) {
+  res.redirect("/games");
 })
 
 app.get('/games', function(req, res) {

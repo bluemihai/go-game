@@ -19,6 +19,6 @@ html(lang="en")
           tr(id='game-' + game.id)
             td.del-td
               a.delete-link(href='#', id = 'delete-' + game.id, title='Delete') X
-            td
+            td.board-id
               a(href='/games/' + game.id)= game.id
-            td= game.board
+            td.board-string= game.board

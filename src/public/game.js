@@ -55,41 +55,29 @@ class Game {
   }
 
   place(position) {
-    if (this.occupied(position)) return false
-    if (this.suicide(position)) return false
-    // if (this.ko(position)) return false
+    if (this.illegalMove(position)) return false
 
     this.board = this.board.replaceAt(position, this.nextPlayer())
-
-    this.capture( position )
-
+    this.capture()
     this.boardHistory.push(this.board)
     this.isBlackNext = !this.isBlackNext
     return true
   }
 
+  illegalMove(position) {
+    return this.occupied(position) || this.suicide(position)// || this.ko(position)
+  }
+
+
   capture(position) {
-    console.log( 'capture', position )
-    const removeIfCaptured = neighbor => {
-      const freedom = freedoms( neighbor.position, neighbor.value )
-
-      if( freedom === 0 ) {
-        this.board.replaceAt( neighbor.position, '.' )
-      }
-    }
-
-    neighborsWithPosition( position ).forEach( removeIfCaptured )
-
-
     // iterate through neighbors
-    // neighbors.forEach(n => {
-    //   if (this.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
-    //     this.board = this.board.replaceAt(n, '.')
-    //     this.capturedBy[nextPlayer()] = this.capturedBy[nextPlayer()] + 1
-    //   }
-    // })
-
+    this.neighbors().forEach(n => {
       // remove them if they are opponent pieces with no freedoms
+      if (this.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
+        this.board = this.board.replaceAt(n, '.')
+        this.capturedBy[nextPlayer()] = this.capturedBy[nextPlayer()] + 1
+      }
+    })
   }
 
   neighborsWithPosition( position ) {
