@@ -11,14 +11,14 @@ html(lang="en")
 
     table
       thead
-        th Game iD
+        th
+        th iD
         th Board Moves
-        th Destroy Game
       tbody
         each game in games
-          tr
+          tr(id='game-' + game.id)
+            td.del-td
+              a.delete-link(href='#', id = 'delete-' + game.id, title='Delete') X
             td
               a(href='/games/' + game.id)= game.id
             td= game.board
-            td
-              //- a.delete-link(id = 'delete-' + game.id) DESTROY

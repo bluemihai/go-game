@@ -20,7 +20,7 @@ var sqlInit = sql('./db.sql')
 const query = (string) => {
   db.any(string)
   .then(data => {
-    console.log('data', data)
+    // console.log('data', data)
     return data
   })
   .catch((error) => {

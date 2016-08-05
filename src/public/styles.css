@@ -1,13 +1,19 @@
 body {
   font-family: monospace;
   background-color: yellow;
+  text-align: center;
 }
 
-.container {
-  /*align-items: center;*/
+.board {
+  display: table;
+  margin: auto;
+  vertical-align: middle;
+  border: 35px solid #005500;
 }
+
 .row {
   display: table-row;
+  margin: auto;
 }
 .cell {
   display: table-cell;
@@ -17,13 +23,34 @@ body {
   text-align: center;
 }
 .available {
+  cursor: pointer;
   background-color: #D28549;
+  color: #D28549;
 }
 
 .B {
   background-color: black;
+  color: black;
 }
 
 .W {
   background-color: white;
+  color: white;
+}
+
+.nav {
+  display: inline;
+  margin: 5px;
+  padding: 5px;
+  background-color: #005500;
+  color: white;
+  font-size: 200%;
+}
+
+a.nav {
+  color: white; 
+}
+
+.del-td {
+  padding-right: 15px;
 }

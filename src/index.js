@@ -43,25 +43,21 @@ app.get('/', function (req, res) {
 app.put('/games/:id/update/:board', function(req, res) {
   let board = req.params.board
   let id = req.params.id
-  console.log('req.params.id', req.params.id)
-
   let queryString = "UPDATE games SET board='" + board + "' WHERE id=" + id + ';'
-  console.log('queryString', queryString)
 
   db.any(queryString)
   .then(data => {
-    console.log('data has been changed', data)
   })
   .catch((error) => {
-    console.log("ERRORX:", error.message || error); // print error;
+    console.log("ERROR:", error.message || error); // print error;
   })
   .finally(pgp.end())
 })
 
 app.get('/games', function(req, res) {
-  console.log('Running /games')
   db.any('SELECT * FROM games;')
   .then(data => {
+    let ids = data.map(e => e.id).sort()
     res.render('games', {
       title: 'Here are available games.',
       message: 'Please click below on a Game iD in order to play.',
@@ -80,7 +76,7 @@ app.get('/games/:id', function(req, res) {
     res.render('index', {
       gameId: data.id,
       title: 'Game iD ',
-      message: 'Click on a square to add your Black or White piece.',
+      message: 'Click to move. Your board is saved automatically.',
       board: data.board.split('')
     })
   })
@@ -90,8 +86,16 @@ app.get('/games/:id', function(req, res) {
   .finally(pgp.end())
 })
 
-app.delete('games/:id', function(req, res) {
-  console.log('Will delete game #', req.params.id)
+app.delete('/games/:id', function(req, res) {
+  let queryString = 'DELETE FROM games WHERE id=' + req.params.id + ';'
+  db.any(queryString)
+  .then(data => {
+    return 'Done!'
+  })
+  .catch((error) => {
+    console.log("ERROR:", error.message || error); // print error;
+  })
+  .finally(pgp.end())
 })
 
 const inRowsOf = (str, size) => {
