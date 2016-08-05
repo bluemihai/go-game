@@ -1,54 +1,108 @@
 body {
-  font-family: monospace;
-  background-color: yellow;
-  text-align: center;
+  font-family: "Lucida Console", Monaco, monospace;
+  background-color: #333766;
+}
+
+.container {
+  position: relative;
+  height: auto;
+  width: 288px;
+  margin: 0 auto;
+  size: 0;
+  border: 32px solid #3244FF;
+}
+
+.grid {
+  position: absolute;
+  left: -16px;
+  top: -16px;
+  width: 320px;
 }
 
 .board {
-  display: table;
+  top: 16px;
+  left: 16px;
   margin: auto;
   vertical-align: middle;
-  border: 35px solid #005500;
 }
 
 .row {
-  display: table-row;
-  margin: auto;
 }
+
 .cell {
-  display: table-cell;
-  width: 35px;
-  height: 35px;
-  border: 1px solid #1485CC;
+  size: inherit;
+  display: inline-block;
   text-align: center;
 }
-.available {
+.grid .row {
+  height: 32px;
+}
+.grid .row:first-child .cell{
+  border-top: 1px solid transparent;
+  border-left: 1px solid transparent;
+}
+.grid .row:last-child .cell{
+  border-left: 1px solid transparent;
+}
+.grid .row .cell:first-child{
+  border-top: 1px solid transparent;
+  border-left: 1px solid transparent;
+}
+.grid .row .cell:last-child{
+  border-top: 1px solid transparent;
+}
+
+.grid .cell {
+  width: 31px;
+  height: 31px;
+  border-top: 1px solid #1485CC;
+  border-left: 1px solid #1485CC;
+  background-color: orange;
+}
+.board .row, .board .cell {
+  height: 32px;
+}
+.board .cell {
+  position: relative;
+  width: 32px;
+  line-height: 32px;
+  /*outline: 1px dotted red;*/
+}
+
+
+.cell.available {
   cursor: pointer;
-  background-color: #D28549;
-  color: #D28549;
+  /*background-color: #D28549;
+  color: #D28549;*/
 }
 
-.B {
-  background-color: black;
-  color: black;
-}
-
-.W {
+.cell.W:after {
   background-color: white;
-  color: white;
+}
+.cell.B:after {
+  background-color: black;
+}
+.cell.W:after, .cell.B:after {
+  position: absolute;
+  content: " ";
+  border-radius: 1000px;
+  height: 20px;
+  width: 20px;
+  left: 5px;
+  top: 5px;
 }
 
 .nav {
   display: inline;
   margin: 5px;
   padding: 5px;
-  background-color: #005500;
+  background-color: grey;
   color: white;
   font-size: 200%;
 }
 
 a.nav {
-  color: white; 
+  color: black;
 }
 
 .del-td {

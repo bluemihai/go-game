@@ -24,7 +24,7 @@ const destroyGame = function () {
 
 const recordMove = function () {
   lastPlayer = (lastPlayer === 'B' ? 'W' : 'B')
-  $(this).html(lastPlayer)
+  $(this).text('')
   $(this).off('click')
   $(this).removeClass('available')
   $(this).addClass(lastPlayer)
@@ -37,17 +37,18 @@ const getGameId = () => {
 
 const getCellIds = () => {
   let range = [...Array(81).keys()]
-  return range.map(k => '#cell-' + k)  
+  return range.map(k => '#cell-' + k)
 }
 
 const loadBoard = () => {
-  return getCellIds().map(k => {
-    let value = $(k).html()
+  return getCellIds().map(cell => {
+    let value = $(cell).text()
     if (value === '.') {
-      $(k).addClass('available')
+      $(cell).addClass('available')
     } else {  // (value === 'B' || 'W')
-      $(k).addClass(value)
+      $(cell).addClass(value)
     }
+    $(cell).text(' ')
   })
 }
 
@@ -78,4 +79,3 @@ const updateGame = (id, board) => {
      data: data
    });
 }
-

@@ -1,9 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray2(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -20,6 +16,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //dame: area controlled by neither black or white = no score
 //board is 9x9 - pieces placed on corner have 2 freedoms and placed on edges have 3 freedoms
 //game is over when both players pass twice consecutively or simply agree to end the game
+
 
 Array.prototype.clean = function (deleteValue) {
   for (var i = 0; i < this.length; i++) {
@@ -46,7 +43,7 @@ String.prototype.printSquare = function () {
   }
 };
 
-var Game = exports.Game = function () {
+var Game = function () {
   function Game() {
     var size = arguments.length <= 0 || arguments[0] === undefined ? 9 : arguments[0];
 
@@ -81,8 +78,8 @@ var Game = exports.Game = function () {
 
       this.board = this.board.replaceAt(position, this.nextPlayer());
 
-      // capture()
-      //
+      this.capture(position);
+
       this.boardHistory.push(this.board);
       this.isBlackNext = !this.isBlackNext;
       return true;
@@ -92,14 +89,33 @@ var Game = exports.Game = function () {
     value: function capture(position) {
       var _this2 = this;
 
-      neighbors.forEach(function (n) {
-        if (_this2.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
-          _this2.board = _this2.board.replaceAt(n, '.');
-          _this2.capturedBy[nextPlayer()] = _this2.capturedBy[nextPlayer()] + 1;
+      console.log('capture', position);
+      var removeIfCaptured = function removeIfCaptured(neighbor) {
+        var freedom = freedoms(neighbor.position, neighbor.value);
+
+        if (freedom === 0) {
+          _this2.board.replaceAt(neighbor.position, '.');
         }
-      });
+      };
+
+      neighborsWithPosition(position).forEach(removeIfCaptured);
+
       // iterate through neighbors
+      // neighbors.forEach(n => {
+      //   if (this.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
+      //     this.board = this.board.replaceAt(n, '.')
+      //     this.capturedBy[nextPlayer()] = this.capturedBy[nextPlayer()] + 1
+      //   }
+      // })
+
       // remove them if they are opponent pieces with no freedoms
+    }
+  }, {
+    key: 'neighborsWithPosition',
+    value: function neighborsWithPosition(position) {
+      var x = position % this.size;
+      var y = Math.floor(position / this.size);
+      return [{ value: this.board[this.xyToPosition(x - 1, y)], position: this.xyToPosition(x - 1, y) }, { value: this.board[this.xyToPosition(x + 1, y)], position: this.xyToPosition(x + 1, y) }, { value: this.board[this.xyToPosition(x, y - 1)], position: this.xyToPosition(x, y - 1) }, { value: this.board[this.xyToPosition(x, y + 1)], position: this.xyToPosition(x, y + 1) }].clean();
     }
   }, {
     key: 'neighbors',

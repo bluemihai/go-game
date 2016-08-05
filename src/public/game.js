@@ -10,9 +10,10 @@
 //board is 9x9 - pieces placed on corner have 2 freedoms and placed on edges have 3 freedoms
 //game is over when both players pass twice consecutively or simply agree to end the game
 
+
 Array.prototype.clean = function(deleteValue) {
   for (var i = 0; i < this.length; i++) {
-    if (this[i] == deleteValue) {         
+    if (this[i] == deleteValue) {
       this.splice(i, 1);
       i--;
     }
@@ -35,7 +36,7 @@ String.prototype.printSquare = function () {
   }
 }
 
-export class Game {
+class Game {
   constructor(size = 9) {
     let cellCount = Math.pow(size, 2)
     this.board = [...Array(cellCount).keys()].map(k => '.').join('')
@@ -60,22 +61,46 @@ export class Game {
 
     this.board = this.board.replaceAt(position, this.nextPlayer())
 
-    // capture()
-    //
+    this.capture( position )
+
     this.boardHistory.push(this.board)
     this.isBlackNext = !this.isBlackNext
-    return true      
+    return true
   }
 
   capture(position) {
-    neighbors.forEach(n => {
-      if (this.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
-        this.board = this.board.replaceAt(n, '.')
-        this.capturedBy[nextPlayer()] = this.capturedBy[nextPlayer()] + 1
+    console.log( 'capture', position )
+    const removeIfCaptured = neighbor => {
+      const freedom = freedoms( neighbor.position, neighbor.value )
+
+      if( freedom === 0 ) {
+        this.board.replaceAt( neighbor.position, '.' )
       }
-    })
+    }
+
+    neighborsWithPosition( position ).forEach( removeIfCaptured )
+
+
     // iterate through neighbors
+    // neighbors.forEach(n => {
+    //   if (this.board[n] === otherPlayer() && freedoms(n, otherPlayer())) {
+    //     this.board = this.board.replaceAt(n, '.')
+    //     this.capturedBy[nextPlayer()] = this.capturedBy[nextPlayer()] + 1
+    //   }
+    // })
+
       // remove them if they are opponent pieces with no freedoms
+  }
+
+  neighborsWithPosition( position ) {
+    let x = position % this.size
+    let y = Math.floor(position / this.size)
+    return [
+      { value: this.board[this.xyToPosition(x - 1, y)], position: this.xyToPosition(x - 1, y)},
+      { value: this.board[this.xyToPosition(x + 1, y)], position: this.xyToPosition(x + 1, y)},
+      { value: this.board[this.xyToPosition(x, y - 1)], position: this.xyToPosition(x, y - 1)},
+      { value: this.board[this.xyToPosition(x, y + 1)], position: this.xyToPosition(x, y + 1)}
+    ].clean()
   }
 
   neighbors(position) {

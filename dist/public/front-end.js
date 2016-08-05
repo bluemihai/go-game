@@ -28,7 +28,7 @@ var destroyGame = function destroyGame() {
 
 var recordMove = function recordMove() {
   lastPlayer = lastPlayer === 'B' ? 'W' : 'B';
-  $(this).html(lastPlayer);
+  $(this).text('');
   $(this).off('click');
   $(this).removeClass('available');
   $(this).addClass(lastPlayer);
@@ -47,14 +47,15 @@ var getCellIds = function getCellIds() {
 };
 
 var loadBoard = function loadBoard() {
-  return getCellIds().map(function (k) {
-    var value = $(k).html();
+  return getCellIds().map(function (cell) {
+    var value = $(cell).text();
     if (value === '.') {
-      $(k).addClass('available');
+      $(cell).addClass('available');
     } else {
       // (value === 'B' || 'W')
-      $(k).addClass(value);
+      $(cell).addClass(value);
     }
+    $(cell).text(' ');
   });
 };
 
