@@ -10,6 +10,15 @@
 //board is 9x9 - pieces placed on corner have 2 freedoms and placed on edges have 3 freedoms
 //game is over when both players pass twice consecutively or simply agree to end the game
 
+Array.prototype.clean = function(deleteValue) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == deleteValue) {         
+      this.splice(i, 1);
+      i--;
+    }
+  }
+  return this;
+};
 
 String.prototype.replaceAt = function(index, character) {
   return this.substr(0, index) + character + this.substr(index+character.length)
@@ -27,7 +36,6 @@ export class Game {
 
   suicide(position) {
     let freedoms = this.freedoms(position, this.nextPlayer())
-    console.log('freedoms', freedoms)
     return freedoms === 0 ? true : false
   }
 
@@ -43,11 +51,18 @@ export class Game {
   }
 
   freedoms(position, color) {
-    let temp = this.getNeighbors(position).map(k => k === color ? 1 : 0)
+    let other = color === 'B' ? 'W' : 'B'
+    let temp = this.neighbors(position).map(k => {
+      if (k === color || k === '.' ) {
+        return 1
+      } else {
+        return 0
+      }
+    })
     return temp.reduce((prev, curr) => prev + curr)
   }
 
-  getNeighbors(position) {
+  neighbors(position) {
     let x = position % this.size
     let y = Math.floor(position / this.size)
     return [
@@ -55,7 +70,7 @@ export class Game {
       this.board[this.xyToPosition(x + 1, y)],
       this.board[this.xyToPosition(x, y - 1)],
       this.board[this.xyToPosition(x, y + 1)]
-    ]
+    ].clean()
   }
 
   xyToPosition(x, y) {
